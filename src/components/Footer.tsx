@@ -2,6 +2,7 @@
 
 import { useI18n } from "@/i18n/I18nProvider";
 import { TERMINAL_OPEN_EVENT } from "./Terminal";
+import { HMB_OPEN_EVENT } from "./hack-my-brain/hmbEvents";
 
 export function Footer() {
   const { t } = useI18n();
@@ -15,6 +16,16 @@ export function Footer() {
         </p>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <span className="hidden sm:inline">{t("footer.stack")}</span>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent(HMB_OPEN_EVENT))}
+            className="font-mono text-[11px] text-frost-500 transition-colors duration-300 hover:text-glacier focus-visible:outline focus-visible:outline-1 focus-visible:outline-glacier active:scale-[0.97]"
+          >
+            <span aria-hidden="true" className="me-1.5 text-glacier/70">
+              {"{ }"}
+            </span>
+            {t("hmb.launch")}
+          </button>
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent(TERMINAL_OPEN_EVENT))}

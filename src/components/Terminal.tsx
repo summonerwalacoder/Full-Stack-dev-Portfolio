@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 
 import { useI18n } from "@/i18n/I18nProvider";
 import { CV } from "@/data/cv";
 import { PROJECTS, MINOR_PROJECTS } from "@/data/projects";
+import { HMB_UNLOCK_EVENT } from "./hack-my-brain/hmbEvents";
 
 export const TERMINAL_OPEN_EVENT = "portfolio:terminal-open";
 
@@ -64,6 +65,17 @@ export function Terminal() {
     const key = cmd.toLowerCase();
     let out: Line[];
 
+    if (/^sudo\s+bobo\s+--unlock-secret$/i.test(input)) {
+      window.dispatchEvent(new CustomEvent(HMB_UNLOCK_EVENT));
+      out = [
+        { text: "Bobo grumbles and hands over root access…", tone: "dim" },
+        { text: "Secret boss mission unlocked in Hack My Brain.", tone: "accent" },
+      ];
+      setLines((prev) => [...prev, ...echo, ...out]);
+      setValue("");
+      return;
+    }
+
     switch (key) {
       case "help":
         out = [
@@ -81,6 +93,8 @@ export function Terminal() {
           { text: "  whoami        short version" },
           { text: "  clear         clear this screen" },
           { text: "  exit          close the terminal" },
+          { text: "" },
+          { text: "  pssst… something is hidden behind: sudo bobo --unlock-secret", tone: "dim" },
         ];
         break;
 

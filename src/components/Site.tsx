@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Nav } from "./Nav";
 import { Hero } from "./Hero";
 import { About } from "./About";
@@ -16,6 +17,11 @@ import { Cursor } from "./Cursor";
 import { ScrollProgress } from "./ScrollProgress";
 import { Terminal } from "./Terminal";
 import { CommandPalette } from "./CommandPalette";
+
+const HackMyBrain = dynamic(
+  () => import("./HackMyBrain").then((m) => m.HackMyBrain),
+  { ssr: false }
+);
 
 export function Site() {
   return (
@@ -38,6 +44,7 @@ export function Site() {
       <Bobo />
       <Terminal />
       <CommandPalette />
+      <HackMyBrain />
     </>
   );
 }

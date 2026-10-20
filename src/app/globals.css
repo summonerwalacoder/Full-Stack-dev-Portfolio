@@ -563,6 +563,19 @@ html.cursor-none [contenteditable="true"] {
   }
 }
 
+/* Hack My Brain challenge code */
+.hmb-code {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 197, 232, 0.35) transparent;
+}
+.hmb-code::-webkit-scrollbar {
+  height: 8px;
+}
+.hmb-code::-webkit-scrollbar-thumb {
+  background: rgba(156, 197, 232, 0.3);
+  border-radius: 999px;
+}
+
 /* CV print page */
 .cv-sheet {
   background: #ffffff;
