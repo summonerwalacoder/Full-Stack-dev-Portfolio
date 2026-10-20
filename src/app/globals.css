@@ -1,0 +1,584 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a0f1c;
+  --bg-raised: #0e1524;
+  --text: #e4ebf4;
+  --text-muted: #93a3ba;
+  --accent: #9cc5e8;
+  --hairline: rgba(228, 235, 244, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Nirmala UI", "Yu Gothic UI", sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(156, 197, 232, 0.28);
+  color: #f2f6fb;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hairline {
+  border-color: var(--hairline);
+}
+
+/* Script-aware typography */
+[data-script="devanagari"] body {
+  font-family: var(--font-deva), "Noto Sans Devanagari", "Nirmala UI", "Mangal",
+    sans-serif;
+}
+
+[data-script="japanese"] body {
+  font-family: var(--font-body), "Yu Gothic UI", "Hiragino Sans", "Noto Sans JP",
+    sans-serif;
+}
+
+[data-script="bengali"] body,
+[data-script="assamese"] body {
+  font-family: var(--font-body), "Noto Sans Bengali", "Nirmala UI", sans-serif;
+}
+
+[data-script="tamil"] body {
+  font-family: var(--font-body), "Noto Sans Tamil", "Nirmala UI", sans-serif;
+}
+
+[data-script="telugu"] body {
+  font-family: var(--font-body), "Noto Sans Telugu", "Nirmala UI", sans-serif;
+}
+
+[data-script="gujarati"] body {
+  font-family: var(--font-body), "Noto Sans Gujarati", "Nirmala UI", sans-serif;
+}
+
+[data-script="kannada"] body {
+  font-family: var(--font-body), "Noto Sans Kannada", "Nirmala UI", sans-serif;
+}
+
+[data-script="malayalam"] body {
+  font-family: var(--font-body), "Noto Sans Malayalam", "Nirmala UI", sans-serif;
+}
+
+[data-script="oriya"] body {
+  font-family: var(--font-body), "Noto Sans Oriya", "Nirmala UI", sans-serif;
+}
+
+[data-script="gurmukhi"] body {
+  font-family: var(--font-body), "Noto Sans Gurmukhi", "Nirmala UI", sans-serif;
+}
+
+[data-script="arabic"] body {
+  font-family: var(--font-body), "Noto Nastaliq Urdu", "Urdu Typesetting",
+    "Nirmala UI", sans-serif;
+}
+
+/* Underline reveal used on text links */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  padding-bottom: 2px;
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Custom cursor + interactive spotlight (fine pointers, motion allowed) */
+html.cursor-none,
+html.cursor-none * {
+  cursor: none !important;
+}
+html.cursor-none input,
+html.cursor-none textarea,
+html.cursor-none [contenteditable="true"] {
+  cursor: text !important;
+}
+
+.cursor-lens {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 9999px;
+  overflow: hidden;
+  opacity: 0;
+  will-change: transform;
+  background: rgba(10, 15, 28, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(156, 197, 232, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -10px 24px rgba(10, 15, 28, 0.28);
+  backdrop-filter: saturate(1.08) contrast(1.02);
+  -webkit-backdrop-filter: saturate(1.08) contrast(1.02);
+  transition:
+    opacity 0.3s ease,
+    background-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.cursor-lens::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.04) 28%,
+    transparent 55%
+  );
+}
+.cursor-lens-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  opacity: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+  transition: opacity 0.2s ease;
+}
+.cursor-lens.is-visible {
+  opacity: 1;
+}
+.cursor-lens.is-suppressed {
+  opacity: 0;
+}
+.cursor-lens.is-active {
+  box-shadow:
+    0 0 0 1px rgba(156, 197, 232, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -10px 24px rgba(10, 15, 28, 0.22);
+}
+.cursor-lens.is-pressed {
+  background: rgba(10, 15, 28, 0.34);
+}
+.cursor-lens.is-magnifying {
+  background: rgba(10, 15, 28, 0.96);
+  box-shadow:
+    0 0 0 1.5px rgba(156, 197, 232, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.cursor-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle,
+    rgba(156, 197, 232, 0.075) 0%,
+    rgba(156, 197, 232, 0.035) 42%,
+    rgba(156, 197, 232, 0) 70%
+  );
+  will-change: transform;
+}
+.cursor-spotlight.is-visible {
+  opacity: 1;
+}
+
+/* Bobo mascot */
+.bobo-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.bobo-char {
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+.bobo-body {
+  transform-origin: 40px 100px;
+  animation: bobo-bounce 0.55s ease-in-out infinite;
+}
+.bobo-paused .bobo-body,
+.bobo-paused .bobo-leg,
+.bobo-paused .bobo-arm {
+  animation-play-state: paused;
+}
+.bobo-leg,
+.bobo-arm {
+  transform-box: fill-box;
+}
+.bobo-leg-l {
+  transform-origin: 50% 0%;
+  animation: bobo-leg-l 0.55s ease-in-out infinite;
+}
+.bobo-leg-r {
+  transform-origin: 50% 0%;
+  animation: bobo-leg-r 0.55s ease-in-out infinite;
+}
+.bobo-arm-l {
+  transform-origin: 70% 5%;
+  animation: bobo-arm-l 0.55s ease-in-out infinite;
+}
+.bobo-arm-r {
+  transform-origin: 30% 5%;
+  animation: bobo-arm-r 0.55s ease-in-out infinite;
+}
+.bobo-mode-talk .bobo-arm-r {
+  animation: bobo-point 0.9s ease-in-out infinite;
+}
+.bobo-mode-laugh .bobo-body {
+  animation: bobo-laugh 0.38s ease-in-out infinite;
+}
+.bobo-mode-laugh .bobo-arm-l,
+.bobo-mode-laugh .bobo-arm-r {
+  animation: bobo-arm-laugh 0.38s ease-in-out infinite;
+}
+.bobo-mode-wave .bobo-arm-r {
+  animation: bobo-wave 0.6s ease-in-out infinite;
+}
+.bobo-mode-sleep .bobo-body {
+  animation: bobo-breathe 2.4s ease-in-out infinite;
+}
+.bobo-mode-wake .bobo-body {
+  animation: bobo-wake 0.5s ease-out;
+}
+.bobo-eyes {
+  transition: transform 0.12s ease;
+}
+.bobo-eyes-closed {
+  transform: scaleY(0.08);
+  transform-origin: 40px 33px;
+  transform-box: view-box;
+}
+.bobo-brows {
+  transition: transform 0.25s ease;
+}
+.bobo-mode-talk .bobo-brows,
+.bobo-mode-laugh .bobo-brows,
+.bobo-mode-wave .bobo-brows {
+  transform: translateY(-1.2px);
+}
+.bobo-mode-sleep .bobo-brows {
+  transform: translateY(1.4px);
+}
+.bobo-mouth {
+  transform-origin: 40px 45px;
+  transform-box: view-box;
+  transition: transform 0.08s ease;
+}
+.bobo-tip {
+  animation: bobo-tip 3.2s ease-in-out infinite;
+}
+.bobo-chest {
+  animation: bobo-tip 2.6s ease-in-out infinite;
+}
+.bobo-listening .bobo-tip {
+  animation-duration: 0.9s;
+}
+.bobo-listening-ring::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 1px solid rgba(156, 197, 232, 0.5);
+  animation: bobo-ring 1.4s ease-out infinite;
+  pointer-events: none;
+}
+.bobo-listen-chip {
+  display: block;
+  margin-bottom: 4px;
+  border: 1px solid rgba(156, 197, 232, 0.35);
+  background: rgba(14, 21, 36, 0.95);
+  color: #9cc5e8;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+.bobo-bubble {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0e1524;
+  padding: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  animation: bobo-bubble-in 0.28s ease-out;
+}
+.bobo-hit {
+  cursor: pointer;
+}
+.bobo-hit:hover .bobo-char {
+  filter: drop-shadow(0 0 12px rgba(156, 197, 232, 0.35))
+    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+@keyframes bobo-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.6px);
+  }
+}
+@keyframes bobo-leg-l {
+  0%,
+  100% {
+    transform: rotate(16deg);
+  }
+  50% {
+    transform: rotate(-16deg);
+  }
+}
+@keyframes bobo-leg-r {
+  0%,
+  100% {
+    transform: rotate(-16deg);
+  }
+  50% {
+    transform: rotate(16deg);
+  }
+}
+@keyframes bobo-arm-l {
+  0%,
+  100% {
+    transform: rotate(-14deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+@keyframes bobo-arm-r {
+  0%,
+  100% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(-14deg);
+  }
+}
+@keyframes bobo-point {
+  0%,
+  100% {
+    transform: rotate(-35deg);
+  }
+  50% {
+    transform: rotate(-50deg);
+  }
+}
+@keyframes bobo-wave {
+  0%,
+  100% {
+    transform: rotate(-130deg);
+  }
+  50% {
+    transform: rotate(-95deg);
+  }
+}
+@keyframes bobo-laugh {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2.5px) scale(1.03);
+  }
+}
+@keyframes bobo-arm-laugh {
+  0%,
+  100% {
+    transform: rotate(-24deg);
+  }
+  50% {
+    transform: rotate(-8deg);
+  }
+}
+@keyframes bobo-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(1px);
+  }
+}
+@keyframes bobo-wake {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-5px) scale(1.06);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes bobo-tip {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes bobo-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes bobo-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bobo-body,
+  .bobo-leg-l,
+  .bobo-leg-r,
+  .bobo-arm-l,
+  .bobo-arm-r,
+  .bobo-tip,
+  .bobo-chest,
+  .bobo-listening-ring::before,
+  .bobo-bubble {
+    animation: none;
+  }
+}
+
+/* Character animations */
+@keyframes guide-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes guide-blink {
+  0%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+  96%,
+  98% {
+    transform: scaleY(0.08);
+  }
+}
+@keyframes guide-talk {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+}
+@keyframes guide-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.guide-body {
+  animation: guide-bob 5s ease-in-out infinite;
+  transform-origin: center;
+}
+.guide-eyes {
+  animation: guide-blink 5.2s ease-in-out infinite;
+  transform-origin: center 58px;
+}
+.guide-mouth {
+  transform-origin: center 74px;
+  transform: scaleY(0.4);
+}
+.guide-speaking .guide-mouth {
+  animation: guide-talk 0.34s ease-in-out infinite;
+}
+.guide-antenna {
+  animation: guide-sway 4.4s ease-in-out infinite;
+  transform-origin: 60px 34px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* CV print page */
+.cv-sheet {
+  background: #ffffff;
+  color: #14202f;
+}
+.cv-sheet a {
+  color: #1d4e79;
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .cv-sheet {
+    padding: 0 !important;
+  }
+  body {
+    background: #fff !important;
+  }
+}
