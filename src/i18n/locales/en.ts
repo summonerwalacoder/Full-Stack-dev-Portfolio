@@ -222,6 +222,9 @@ export const en: Record<string, string> = {
 
   "hmb.launch": "Hack my brain",
   "hmb.launchSub": "Solve a challenge, unlock my projects, and see how I think.",
+  "hmb.bannerKicker": "Interactive challenge",
+  "hmb.bannerTitle": "Think you can hack my brain?",
+  "hmb.bannerNote": "Pick a mission, solve real coding challenges, and see how I think — no sign-up, runs in your browser.",
   "hmb.title": "Hack My Brain",
   "hmb.subtitle": "Pick a mission. Test your logic. Discover my work.",
   "hmb.close": "Close challenge",

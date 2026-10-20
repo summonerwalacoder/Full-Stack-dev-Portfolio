@@ -9,6 +9,7 @@ import { Skills } from "./Skills";
 import { Journey } from "./Journey";
 import { Achievements } from "./Achievements";
 import { Interests } from "./Interests";
+import { HackMyBrainBanner } from "./HackMyBrainBanner";
 import { Contact } from "./Contact";
 import { Footer } from "./Footer";
 import { Guide } from "./Guide";
@@ -37,6 +38,7 @@ export function Site() {
         <Journey />
         <Achievements />
         <Interests />
+        <HackMyBrainBanner />
         <Contact />
       </main>
       <Footer />

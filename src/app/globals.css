@@ -576,6 +576,56 @@ html.cursor-none [contenteditable="true"] {
   border-radius: 999px;
 }
 
+/* Hack My Brain launcher banner */
+.hmb-banner {
+  isolation: isolate;
+}
+.hmb-banner-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(156, 197, 232, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(156, 197, 232, 0.07) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, #000 30%, transparent 78%);
+  opacity: 0.9;
+}
+.hmb-banner-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(156, 197, 232, 0.12) 50%,
+    transparent 65%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+.hmb-banner-glow .hmb-banner-scan {
+  animation: hmb-scan 6.5s ease-in-out infinite;
+}
+.hmb-banner-glow {
+  box-shadow:
+    0 0 0 1px rgba(156, 197, 232, 0.12),
+    0 30px 80px -40px rgba(156, 197, 232, 0.5);
+}
+.hmb-banner-title {
+  text-shadow: 0 0 30px rgba(156, 197, 232, 0.25);
+}
+@keyframes hmb-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  55%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* CV print page */
 .cv-sheet {
   background: #ffffff;
