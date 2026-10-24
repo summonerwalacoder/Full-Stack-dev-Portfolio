@@ -191,7 +191,7 @@ export function Bobo() {
 
   const showBubble = useCallback(
     (text: string, joke: boolean, speak: boolean) => {
-      cancelSpeech();
+      if (!speak) cancelSpeech();
       const seq = ++seqRef.current;
       speakingRef.current = false;
       setIntro(false);
@@ -670,7 +670,10 @@ export function Bobo() {
             <button
               type="button"
               data-bobo-ui
-              onClick={() => setDismissed(true)}
+              onClick={() => {
+                closeInteraction();
+                setDismissed(true);
+              }}
               aria-label={t("bot.close")}
               className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-ink-raised/90 text-frost-500 transition-colors duration-200 hover:text-frost-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-glacier"
             >

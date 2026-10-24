@@ -6,6 +6,7 @@ import { SectionShell } from "./SectionShell";
 import { Reveal } from "./Reveal";
 import { Quip } from "./Quip";
 
+
 const DESC: Record<string, string> = {
   inverthon: "achievements.a1",
   hackbhoomi: "achievements.a2",

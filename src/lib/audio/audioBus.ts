@@ -1,4 +1,4 @@
-"use client";
+
 
 /**
  * Centralized audio coordination bus.
@@ -18,71 +18,66 @@
  *   the user has not since changed playback intent.
  */
 
+
+"use client";
+
+/**
+ * Centralized audio coordination bus.
+ *
+ * Coordinates speech, sound effects, and multiple music sources.
+ * Music paused by the bus is resumed only when:
+ * - It was playing before speech started.
+ * - The user has not changed playback intent.
+ * - No other speech session is active.
+ */
+
 export type SpeechEndReason = "complete" | "cancel" | "error";
 
+export interface MusicDucker {
+  /** Pause this music source. Return true only if it was playing and paused. */
+  pause: () => boolean;
+  /** Resume this source if it was paused by the bus. */
+  resume: () => void;
+  /** Is this source currently playing? */
+  isPlaying: () => boolean;
+}
+
 export interface AudioBus {
-  /** Register a music ducker. Returns an unsubscribe function. */
   registerDucker: (ducker: MusicDucker) => () => void;
-  /** Register for any non-music sound becoming active or inactive. */
   subscribeSoundActivity: (listener: (active: boolean) => void) => () => void;
-  /** True while any non-music sound session is active. */
   isSoundActive: () => boolean;
-  /** Mark a short sound effect as active until its matching endSound call. */
   beginSound: (owner: string) => number;
-  /** End a short sound effect session. */
   endSound: (token: number) => void;
-  /**
-   * Mark a speech session as started. Returns a token that must be passed to
-   * endSpeech. If speech is already active, the previous session is considered
-   * superseded (its endSpeech becomes a no-op for resume purposes).
-   */
   beginSpeech: (owner: string) => number;
-  /** End a speech session. */
   endSpeech: (token: number, reason: SpeechEndReason) => void;
-  /** True while any speech session is active. */
   isSpeaking: () => boolean;
-  /**
-   * Called by the music owner whenever the USER changes playback intent
-   * (play/pause/stop/switch). This clears any pending speech-resume so music
-   * is never resumed behind the user's back.
-   */
   noteUserMusicIntent: () => void;
 }
 
-export interface MusicDucker {
-  /** Pause music for speech. Return true if music was actually playing. */
-  pause: () => boolean;
-  /** Resume music that was paused for speech. */
-  resume: () => void;
-  /**
-   * Returns whether the music is currently actively playing (so the bus can
-   * decide whether pausing is even necessary).
-   */
-  isPlaying: () => boolean;
+interface DuckerState {
+  ducker: MusicDucker;
+  pausedByBus: boolean;
 }
 
 interface BusState {
   activeSpeechToken: number | null;
   activeSpeechSoundToken: number | null;
   speechOwner: string | null;
-  duckers: Set<MusicDucker>;
+  duckers: Map<MusicDucker, DuckerState>;
   soundListeners: Set<(active: boolean) => void>;
   soundTokens: Set<number>;
-  /** Whether music was actually paused by the bus for the active speech. */
-  duckedForSpeech: boolean;
-  /** Whether the user changed intent during the active speech. */
   userIntendedDuringSpeech: boolean;
 }
 
 let tokenCounter = 0;
+
 const state: BusState = {
   activeSpeechToken: null,
   activeSpeechSoundToken: null,
   speechOwner: null,
-  duckers: new Set<MusicDucker>(),
-  soundListeners: new Set<(active: boolean) => void>(),
-  soundTokens: new Set<number>(),
-  duckedForSpeech: false,
+  duckers: new Map(),
+  soundListeners: new Set(),
+  soundTokens: new Set(),
   userIntendedDuringSpeech: false,
 };
 
@@ -99,39 +94,51 @@ function notifySoundActivity(active: boolean) {
 function addSoundToken(token: number) {
   const wasActive = state.soundTokens.size > 0;
   state.soundTokens.add(token);
-  if (!wasActive) notifySoundActivity(true);
+
+  if (!wasActive) {
+    notifySoundActivity(true);
+  }
 }
 
 function removeSoundToken(token: number) {
   if (!state.soundTokens.delete(token)) return;
-  if (state.soundTokens.size === 0) notifySoundActivity(false);
+
+  if (state.soundTokens.size === 0) {
+    notifySoundActivity(false);
+  }
 }
 
+/** Pause every music source that is currently playing. */
 function duckMusic() {
-  // Only duck if something is actually playing; remember if we did pause.
-  let paused = false;
-  for (const d of state.duckers) {
+  for (const entry of state.duckers.values()) {
     try {
-      if (d.isPlaying()) {
-        if (d.pause()) paused = true;
+      entry.pausedByBus = false;
+
+      if (entry.ducker.isPlaying() && entry.ducker.pause()) {
+        entry.pausedByBus = true;
       }
-    } catch {
-      /* ignore */
+    } catch (error) {
+      console.error("Could not pause music for speech.", error);
     }
   }
-  state.duckedForSpeech = paused;
 }
 
+/** Resume only sources actually paused by this bus. */
 function unduckMusic() {
-  const shouldResume = state.duckedForSpeech && !state.userIntendedDuringSpeech;
-  state.duckedForSpeech = false;
+  const mayResume = !state.userIntendedDuringSpeech;
   state.userIntendedDuringSpeech = false;
-  if (!shouldResume) return;
-  for (const d of state.duckers) {
+
+  for (const entry of state.duckers.values()) {
+    if (!entry.pausedByBus) continue;
+
+    entry.pausedByBus = false;
+
+    if (!mayResume) continue;
+
     try {
-      d.resume();
-    } catch {
-      /* ignore */
+      entry.ducker.resume();
+    } catch (error) {
+      console.error("Could not resume music after speech.", error);
     }
   }
 }
@@ -140,6 +147,7 @@ export const audioBus: AudioBus = {
   subscribeSoundActivity(listener) {
     state.soundListeners.add(listener);
     listener(state.soundTokens.size > 0);
+
     return () => {
       state.soundListeners.delete(listener);
     };
@@ -160,17 +168,24 @@ export const audioBus: AudioBus = {
   },
 
   registerDucker(ducker) {
-    state.duckers.add(ducker);
-    // If speech is already active when a ducker registers, duck immediately.
-    if (state.activeSpeechToken != null) {
+    const entry: DuckerState = {
+      ducker,
+      pausedByBus: false,
+    };
+
+    state.duckers.set(ducker, entry);
+
+    // If a new music source registers during speech, pause it immediately.
+    if (state.activeSpeechToken !== null) {
       try {
-        if (ducker.isPlaying()) {
-          if (ducker.pause()) state.duckedForSpeech = true;
+        if (ducker.isPlaying() && ducker.pause()) {
+          entry.pausedByBus = true;
         }
-      } catch {
-        /* ignore */
+      } catch (error) {
+        console.error("Could not duck newly registered music.", error);
       }
     }
+
     return () => {
       state.duckers.delete(ducker);
     };
@@ -178,42 +193,62 @@ export const audioBus: AudioBus = {
 
   beginSpeech(owner) {
     const token = ++tokenCounter;
-    const alreadySpeaking = state.activeSpeechToken != null;
+    const alreadySpeaking = state.activeSpeechToken !== null;
     const wasSoundActive = state.soundTokens.size > 0;
-    if (state.activeSpeechSoundToken != null) {
+
+    // Replace the previous speech session's sound token.
+    if (state.activeSpeechSoundToken !== null) {
       state.soundTokens.delete(state.activeSpeechSoundToken);
     }
+
     state.activeSpeechToken = token;
     state.activeSpeechSoundToken = token;
     state.soundTokens.add(token);
     state.speechOwner = owner;
-    if (!wasSoundActive) notifySoundActivity(true);
+
+    if (!wasSoundActive) {
+      notifySoundActivity(true);
+    }
+
+    // A new speech owner supersedes the previous owner without
+    // briefly resuming music between the two speech sessions.
     if (!alreadySpeaking) {
-      state.duckedForSpeech = false;
       state.userIntendedDuringSpeech = false;
       duckMusic();
     }
+
     return token;
   },
 
   endSpeech(token, _reason) {
-    if (state.activeSpeechToken !== token) return; // superseded/old token
+    // Ignore callbacks from a superseded speech session.
+    if (state.activeSpeechToken !== token) return;
+
     state.activeSpeechToken = null;
+
     if (state.activeSpeechSoundToken !== null) {
       removeSoundToken(state.activeSpeechSoundToken);
     }
+
     state.activeSpeechSoundToken = null;
     state.speechOwner = null;
+
     unduckMusic();
   },
 
   isSpeaking() {
-    return state.activeSpeechToken != null;
+    return state.activeSpeechToken !== null;
   },
 
   noteUserMusicIntent() {
-    if (state.activeSpeechToken != null) {
+    if (state.activeSpeechToken !== null) {
       state.userIntendedDuringSpeech = true;
+
+      // Do not let the bus resume music after the user has
+      // manually changed playback intent during speech.
+      for (const entry of state.duckers.values()) {
+        entry.pausedByBus = false;
+      }
     }
   },
 };

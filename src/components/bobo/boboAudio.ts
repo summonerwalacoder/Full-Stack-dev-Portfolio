@@ -1,8 +1,24 @@
 "use client";
 
 import { audioBus } from "@/lib/audio/audioBus";
+import {
+  notifyBoboSpeechEnd,
+  notifyBoboSpeechStart,
+} from "@/components/audiocoordination";
 
 let activeSpeechToken: number | null = null;
+
+function finishSpeech(
+  token: number,
+  reason: "complete" | "cancel" | "error",
+  onEnd?: () => void
+) {
+  if (activeSpeechToken !== token) return;
+  activeSpeechToken = null;
+  audioBus.endSpeech(token, reason);
+  notifyBoboSpeechEnd();
+  onEnd?.();
+}
 
 export function getSynthesis(): SpeechSynthesis | null {
   if (typeof window === "undefined") return null;
@@ -59,47 +75,54 @@ export function speakJoke(
     cb.onEnd?.();
     return false;
   }
+  let token: number | null = null;
   try {
-    synth.cancel();
-    activeSpeechToken = null;
     const u = new SpeechSynthesisUtterance(text);
-    const token = audioBus.beginSpeech("spoken-joke");
-    activeSpeechToken = token;
-    const finish = (reason: "complete" | "error") => {
-      if (activeSpeechToken !== token) return;
-      activeSpeechToken = null;
-      audioBus.endSpeech(token, reason);
-      cb.onEnd?.();
-    };
     u.lang = langTag(lang);
     const voice = pickVoice(lang);
     if (voice) u.voice = voice;
     u.rate = 1;
     u.pitch = 1.1;
+
+    const previousToken = activeSpeechToken;
+    if (previousToken !== null) {
+      activeSpeechToken = null;
+      try {
+        synth.cancel();
+      } catch (error) {
+        activeSpeechToken = previousToken;
+        throw error;
+      }
+    }
+
+    const speechToken = audioBus.beginSpeech("spoken-joke");
+    token = speechToken;
+    activeSpeechToken = speechToken;
+    notifyBoboSpeechStart();
+
     u.onstart = () => cb.onStart?.();
-    u.onend = () => finish("complete");
-    u.onerror = () => finish("error");
+    u.onend = () => finishSpeech(speechToken, "complete", cb.onEnd);
+    u.onerror = () => finishSpeech(speechToken, "error", cb.onEnd);
     synth.speak(u);
     return true;
   } catch {
-    if (activeSpeechToken !== null) {
-      audioBus.endSpeech(activeSpeechToken, "error");
-      activeSpeechToken = null;
-    }
+    if (token !== null) finishSpeech(token, "error");
     cb.onEnd?.();
     return false;
   }
 }
 
 export function cancelSpeech() {
-  if (activeSpeechToken !== null) {
-    audioBus.endSpeech(activeSpeechToken, "cancel");
-    activeSpeechToken = null;
-  }
+  const token = activeSpeechToken;
+  activeSpeechToken = null;
   try {
     getSynthesis()?.cancel();
   } catch {
     /* ignore */
+  }
+  if (token !== null) {
+    audioBus.endSpeech(token, "cancel");
+    notifyBoboSpeechEnd();
   }
 }
 

@@ -2,11 +2,10 @@
 
 import { CheerMode } from "@/components/cheer-mode/CheerMode";
 import { FireMode } from "@/components/fire-mode/FireMode";
+import { PeakMotivation } from "@/components/PeakMotivation";
 
 /**
- * Shared top-right launcher that holds the music companions (Cheer Mode and
- * Fire Mode) side by side. Only one panel can be open at a time because opening
- * one dispatches the other's close event.
+ * Shared top-right launcher for Peak Motivation, Cheer Mode, and Fire Mode.
  */
 export function MusicModes() {
   return (
@@ -17,8 +16,10 @@ export function MusicModes() {
         paddingRight: "max(0.6rem, env(safe-area-inset-right))",
       }}
     >
+      <PeakMotivation />
       <CheerMode />
       <FireMode />
     </div>
   );
 }
+
