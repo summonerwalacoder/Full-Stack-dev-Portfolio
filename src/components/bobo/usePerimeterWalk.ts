@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
-const LOOP_MS = 24000;
+const LOOP_MS = 36000;
 
 function pointOnRect(t: number, w: number, h: number, m: number) {
   const tw = Math.max(w - 2 * m, 1);

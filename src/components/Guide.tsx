@@ -1,14 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useI18n } from "@/i18n/I18nProvider";
 import { GuideCharacter } from "./GuideCharacter";
+import { audioBus, type SpeechEndReason } from "@/lib/audio/audioBus";
 
 type Panel = "full" | "mini" | "hidden";
 type Status = "idle" | "playing" | "paused" | "done";
 
-const SEEN_KEY = "sumit.guide.seen";
 const MUTED_KEY = "sumit.guide.muted";
 
 function splitSentences(text: string): string[] {
@@ -47,14 +46,12 @@ const ICONS = {
 
 export function Guide() {
   const { t, locale, meta } = useI18n();
-  const [panel, setPanel] = useState<Panel>("full");
+  const [panel, setPanel] = useState<Panel>("mini");
   const [status, setStatus] = useState<Status>("idle");
   const [muted, setMuted] = useState(false);
   const [captionsOn, setCaptionsOn] = useState(true);
   const [index, setIndex] = useState(0);
   const [note, setNote] = useState<string | null>(null);
-  const [showInvite, setShowInvite] = useState(false);
-  const reduce = useReducedMotion();
 
   const script = useMemo(() => t("guide.script"), [t]);
   const sentences = useMemo(() => splitSentences(script), [script]);
@@ -63,6 +60,7 @@ export function Guide() {
   const statusRef = useRef<Status>("idle");
   const mutedRef = useRef(false);
   const timerRef = useRef<number | null>(null);
+  const speechTokenRef = useRef<number | null>(null);
   const cancelOnLocale = useRef(true);
 
   const supported =
@@ -75,8 +73,16 @@ export function Guide() {
     }
   };
 
+  const endAudioSpeech = useCallback((reason: SpeechEndReason) => {
+    const token = speechTokenRef.current;
+    if (token === null) return;
+    speechTokenRef.current = null;
+    audioBus.endSpeech(token, reason);
+  }, []);
+
   const stopSpeech = useCallback(() => {
     clearTimer();
+    endAudioSpeech("cancel");
     if (supported) {
       try {
         window.speechSynthesis.cancel();
@@ -84,7 +90,7 @@ export function Guide() {
         /* no-op */
       }
     }
-  }, [supported]);
+  }, [endAudioSpeech, supported]);
 
   const setSt = useCallback((s: Status) => {
     statusRef.current = s;
@@ -97,6 +103,7 @@ export function Guide() {
         setSt("done");
         setIndex(0);
         indexRef.current = 0;
+        setPanel("mini");
         return;
       }
       indexRef.current = idx;
@@ -135,16 +142,12 @@ export function Guide() {
         captionAdvance(idx);
         return;
       }
-      try {
-        window.speechSynthesis.cancel();
-      } catch {
-        /* no-op */
-      }
-
       if (idx >= sentences.length) {
+        endAudioSpeech("complete");
         setSt("done");
         setIndex(0);
         indexRef.current = 0;
+        setPanel("mini");
         return;
       }
 
@@ -169,35 +172,57 @@ export function Guide() {
         if (statusRef.current !== "playing") return;
         const next = indexRef.current + 1;
         if (next >= sentences.length) {
+          endAudioSpeech("complete");
           setSt("done");
           setIndex(0);
           indexRef.current = 0;
+          setPanel("mini");
           return;
         }
         indexRef.current = next;
         setIndex(next);
-        window.setTimeout(() => {
+        clearTimer();
+        timerRef.current = window.setTimeout(() => {
+          timerRef.current = null;
           if (statusRef.current === "playing") speakFrom(next);
         }, 120);
       };
       utter.onerror = () => {
         if (statusRef.current !== "playing") return;
-        const next = indexRef.current + 1;
-        if (next >= sentences.length) {
-          setSt("done");
-          return;
-        }
-        indexRef.current = next;
-        setIndex(next);
+        endAudioSpeech("error");
+        setSt("idle");
         setNote(t("guide.voiceNote"));
-        window.setTimeout(() => {
-          if (statusRef.current === "playing") speakFrom(next);
-        }, 120);
+        setPanel("mini");
       };
 
-      window.speechSynthesis.speak(utter);
+      if (speechTokenRef.current === null) {
+        speechTokenRef.current = audioBus.beginSpeech("portfolio-guide");
+        try {
+          window.speechSynthesis.cancel();
+        } catch {
+          /* no-op */
+        }
+      }
+      try {
+        window.speechSynthesis.speak(utter);
+      } catch {
+        endAudioSpeech("error");
+        setSt("idle");
+        setNote(t("guide.voiceNote"));
+        setPanel("mini");
+      }
     },
-    [locale, meta.coverage, pickVoice, sentences, supported, t, captionAdvance, setSt]
+    [
+      captionAdvance,
+      endAudioSpeech,
+      locale,
+      meta.coverage,
+      pickVoice,
+      sentences,
+      setSt,
+      supported,
+      t,
+    ]
   );
 
   const play = useCallback(() => {
@@ -213,15 +238,17 @@ export function Guide() {
 
   const pause = useCallback(() => {
     clearTimer();
+    setSt("paused");
     if (supported) {
       try {
-        window.speechSynthesis.pause();
+        window.speechSynthesis.cancel();
       } catch {
         /* no-op */
       }
     }
-    setSt("paused");
-  }, [setSt, supported]);
+    endAudioSpeech("cancel");
+    setPanel("mini");
+  }, [endAudioSpeech, setSt, supported]);
 
   const resume = useCallback(() => {
     setSt("playing");
@@ -271,9 +298,8 @@ export function Guide() {
       const m = window.localStorage.getItem(MUTED_KEY) === "1";
       mutedRef.current = m;
       setMuted(m);
-      if (window.localStorage.getItem(SEEN_KEY) !== "1") setShowInvite(true);
     } catch {
-      setShowInvite(true);
+      setMuted(false);
     }
     return () => stopSpeech();
   }, [stopSpeech]);
@@ -324,22 +350,6 @@ export function Guide() {
     return () => window.removeEventListener("sumit:guide-toggle", onToggle);
   }, [setSt, stopSpeech]);
 
-  const dismissInvite = () => {
-    setShowInvite(false);
-    try {
-      window.localStorage.setItem(SEEN_KEY, "1");
-    } catch {
-      /* no-op */
-    }
-  };
-
-  const acceptInvite = () => {
-    dismissInvite();
-    indexRef.current = 0;
-    setIndex(0);
-    play();
-  };
-
   const closePanel = () => {
     stopSpeech();
     setSt("idle");
@@ -367,7 +377,18 @@ export function Guide() {
       <div className="fixed bottom-4 end-4 z-40">
         <button
           type="button"
-          onClick={() => setPanel("full")}
+          onClick={() => {
+            if (statusRef.current === "playing") {
+              stopSpeech();
+              setSt("idle");
+              setPanel("mini");
+              return;
+            }
+            indexRef.current = statusRef.current === "done" ? 0 : indexRef.current;
+            setIndex(indexRef.current);
+            setPanel("full");
+            play();
+          }}
           aria-label={t("guide.expand")}
           title={t("guide.expand")}
           className="flex items-center gap-2 rounded-full border border-white/15 bg-ink-raised px-2 py-1.5 text-glacier shadow-lg shadow-black/40 transition-colors duration-300 hover:border-glacier/50"
@@ -393,41 +414,6 @@ export function Guide() {
 
   return (
     <div className="fixed bottom-4 end-4 z-40 flex w-[min(21rem,calc(100vw-2rem))] flex-col items-end gap-3">
-      <AnimatePresence>
-        {showInvite && (
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: 8 }}
-            transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1] }}
-            className="w-full border border-white/12 bg-ink-raised p-4 shadow-xl shadow-black/40"
-          >
-            <p className="font-display text-[15px] font-normal text-frost-100">
-              {t("guide.inviteTitle")}
-            </p>
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-frost-400">
-              {t("guide.inviteBody")}
-            </p>
-            <div className="mt-3.5 flex items-center gap-4">
-              <button
-                type="button"
-                onClick={acceptInvite}
-                className="border border-glacier/50 px-3 py-1.5 text-[12px] text-glacier transition-colors duration-200 hover:bg-glacier/10"
-              >
-                {t("guide.accept")}
-              </button>
-              <button
-                type="button"
-                onClick={dismissInvite}
-                className="text-[12px] text-frost-500 underline-offset-4 hover:text-frost-300 hover:underline"
-              >
-                {t("guide.dismiss")}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {(captionsOn || note || status !== "idle") && (
         <div className="w-full border border-white/12 bg-ink-raised/95 p-3.5 shadow-xl shadow-black/40 backdrop-blur-sm">
           <div className="flex items-center justify-between gap-3">
@@ -455,8 +441,8 @@ export function Guide() {
         </div>
       )}
 
-      <div className="flex items-end gap-2.5">
-        <div className="flex items-center gap-1.5 border border-white/12 bg-ink-raised/90 p-1.5 backdrop-blur-sm">
+      <div className="guide-controls-row flex items-end gap-2.5">
+        <div className="guide-control-group flex items-center gap-1.5 border border-white/12 bg-ink-raised/90 p-1.5 backdrop-blur-sm">
           {status === "playing" ? (
             <button
               type="button"
@@ -536,7 +522,11 @@ export function Guide() {
 
         <button
           type="button"
-          onClick={() => setPanel("mini")}
+          onClick={() => {
+            stopSpeech();
+            setSt("idle");
+            setPanel("mini");
+          }}
           className="shrink-0 rounded-full border border-white/12 bg-ink-raised/90 transition-colors duration-300 hover:border-glacier/50"
           aria-label={t("guide.title")}
           title={t("guide.title")}

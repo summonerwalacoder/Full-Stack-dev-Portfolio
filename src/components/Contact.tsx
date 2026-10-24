@@ -54,7 +54,7 @@ export function Contact() {
   return (
     <SectionShell
       id="contact"
-      index="07"
+      index="08"
       label={t("contact.label")}
       title={t("contact.title")}
       intro={t("contact.invite")}

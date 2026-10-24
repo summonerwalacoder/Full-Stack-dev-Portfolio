@@ -49,11 +49,14 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
       />
 
-      <div className="relative mx-auto grid w-full max-w-shell items-center gap-14 px-5 md:grid-cols-[1fr_minmax(0,42%)] md:gap-12 md:px-8 lg:gap-20">
+      <div className="relative z-10 mx-auto grid w-full max-w-shell items-center gap-14 px-5 md:grid-cols-[1fr_minmax(0,42%)] md:gap-12 md:px-8 lg:gap-20">
         <motion.div
           initial={reduce ? false : "hidden"}
           animate="show"
-          variants={{ show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+          }}
         >
           <motion.p
             variants={rise}
@@ -64,12 +67,25 @@ export function Hero() {
 
           <motion.h1
             id="hero-title"
-            variants={rise}
             className="font-display text-[clamp(2.75rem,9vw,5.75rem)] font-light leading-[1.02] tracking-[-0.02em] text-frost-50"
           >
-            Sumit Kumar
-            <br />
-            <span className="text-frost-300">Sharma</span>
+            {["Sumit", "Kumar", "Sharma"].map((name, index) => (
+              <motion.span
+                key={name}
+                initial={reduce ? false : { scale: 0.94 }}
+                animate={reduce ? undefined : { scale: [0.94, 1.045, 1] }}
+                transition={{
+                  duration: 0.7,
+                  delay: index * 0.12,
+                  ease: "easeOut",
+                }}
+                className={`block origin-center ${
+                  name === "Sharma" ? "font-light text-frost-300" : ""
+                }`}
+              >
+                {name}
+              </motion.span>
+            ))}
           </motion.h1>
 
           <motion.p
@@ -162,7 +178,7 @@ export function Hero() {
 
       <div
         aria-hidden="true"
-        className="relative mx-auto mt-16 w-full max-w-shell px-5 md:px-8"
+        className="relative z-10 mx-auto mt-16 w-full max-w-shell px-5 md:px-8"
       >
         <div className="flex items-center gap-3 text-[10px] uppercase tracking-label text-frost-500">
           <span>{t("hero.scroll")}</span>

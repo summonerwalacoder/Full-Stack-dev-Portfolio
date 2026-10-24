@@ -83,6 +83,7 @@ export function Bobo() {
   const recWanted = useRef(false);
   const modeTimer = useRef(0);
   const celebratedRef = useRef(false);
+  const introSpeechRef = useRef<(() => void) | null>(null);
 
   const [size, setSize] = useState(60);
   useEffect(() => {
@@ -115,16 +116,6 @@ export function Bobo() {
     } catch {
       /* ignore */
     }
-    const timer = window.setTimeout(() => {
-      try {
-        if (sessionStorage.getItem("sumit.bobo.seen")) return;
-        sessionStorage.setItem("sumit.bobo.seen", "1");
-      } catch {
-        /* ignore */
-      }
-      setIntro(true);
-    }, 6000);
-    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -241,6 +232,24 @@ export function Bobo() {
       t,
     ]
   );
+
+  introSpeechRef.current = () => {
+    setIntro(true);
+    showBubble(t("bot.intro"), false, voiceOnRef.current);
+  };
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        if (sessionStorage.getItem("sumit.bobo.seen")) return;
+        sessionStorage.setItem("sumit.bobo.seen", "1");
+      } catch {
+        /* ignore */
+      }
+      introSpeechRef.current?.();
+    }, 6000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const onActivate = useCallback(() => {
     const now = Date.now();

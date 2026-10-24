@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, Noto_Sans_Devanagari } from "next/font/google";
+import { Fraunces, Inter, Noto_Sans_Devanagari, Geist } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -54,7 +57,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: earlyLocaleScript }} />
       </head>

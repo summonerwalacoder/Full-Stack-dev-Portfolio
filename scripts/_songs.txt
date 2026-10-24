@@ -1,0 +1,576 @@
+﻿# One song per line:  genreId | title | artist
+# genreId must match GENRE ids in scripts/_genres.mts
+# Raw input for scripts/_resolveTracks.mts (YouTube search + oEmbed verify).
+# Lines starting with # are ignored.
+
+# ===== Bollywood & Hindi Hits =====
+bollywood | Barsaat | Banjaare Roni
+bollywood | Bairan | Banjaare
+bollywood | Arz Kiya Hai | Anuv Jain
+bollywood | Khat | Navjot Ahuja
+bollywood | Gehra Hua | Shashwat Sachdev Arijit Singh
+bollywood | Saiyaara | Faheem Abdullah
+bollywood | Finding Her | Kushagra Bharath Saaheal
+bollywood | Sahiba | Aditya Rikhari
+bollywood | Jo Tum Mere Ho | Anuv Jain
+bollywood | Raanjhan | Sachet-Parampara
+bollywood | Heeriye | Jasleen Royal Arijit Singh
+bollywood | Chaleya | Arijit Singh Shilpa Rao
+bollywood | Kesariya | Arijit Singh
+bollywood | Apna Bana Le | Arijit Singh
+bollywood | Satranga | Arijit Singh
+bollywood | O Maahi | Arijit Singh
+bollywood | Tum Kya Mile | Arijit Singh Shreya Ghoshal
+bollywood | Ve Kamleya | Arijit Singh Shreya Ghoshal
+bollywood | Tere Vaaste | Varun Jain Sachin-Jigar
+bollywood | Phir Aur Kya Chahiye | Arijit Singh
+bollywood | What Jhumka | Arijit Singh Jonita Gandhi
+bollywood | Jhoome Jo Pathaan | Arijit Singh Sukriti Kakar
+bollywood | Besharam Rang | Shilpa Rao
+bollywood | Ghungroo | Arijit Singh Shilpa Rao
+bollywood | Kala Chashma | Amar Arshi Badshah Neha Kakkar
+bollywood | Tareefan | Badshah
+bollywood | Kar Gayi Chull | Badshah
+bollywood | Abhi Toh Party Shuru Hui Hai | Badshah Aastha Gill
+bollywood | Genda Phool | Badshah Payal Dev
+bollywood | Tauba Tauba | Karan Aujla
+bollywood | Aaj Ki Raat | Madhubanti Bagchi Divya Kumar
+bollywood | Aayi Nai | Pawan Singh Simran Choudhary
+bollywood | Shararat | Jasmine Sandlas Sachet-Parampara
+bollywood | Sajni | Ram Sampath Arijit Singh
+bollywood | Tainu Khabar Nahi | Arijit Singh
+bollywood | Ishq | Faheem Abdullah
+bollywood | Afsos | Anuv Jain AP Dhillon
+bollywood | Husn | Anuv Jain
+bollywood | Baarishein | Anuv Jain
+bollywood | Alag Aasmaan | Anuv Jain
+bollywood | Gul | Anuv Jain
+bollywood | Maan Meri Jaan | King
+bollywood | Tu Aake Dekhle | King
+bollywood | Suniya Suniya | Juss
+bollywood | Zaalima | Arijit Singh Harshdeep Kaur
+bollywood | Darkhaast | Arijit Singh Sunidhi Chauhan
+bollywood | Samjhawan | Arijit Singh Shreya Ghoshal
+bollywood | Tera Hone Laga Hoon | Atif Aslam Alisha Chinai
+bollywood | Karma Song | Kantara A Legend Chapter 1
+bollywood | Jai Jai Shivshankar | Arijit Singh Vishal Dadlani
+
+# ===== Punjabi Hits =====
+punjabi | Winning Speech | Karan Aujla
+punjabi | Softly | Karan Aujla
+punjabi | Admiring You | Karan Aujla
+punjabi | Wavy | Karan Aujla
+punjabi | Boyfriend | Karan Aujla
+punjabi | For A Reason | Karan Aujla Ikky
+punjabi | 52 Bars | Karan Aujla
+punjabi | On Top | Karan Aujla
+punjabi | Players | Badshah Karan Aujla
+punjabi | GOAT | Diljit Dosanjh
+punjabi | Lover | Diljit Dosanjh
+punjabi | Hass Hass | Diljit Dosanjh Sia
+punjabi | Born to Shine | Diljit Dosanjh
+punjabi | Naina | Diljit Dosanjh Badshah
+punjabi | Lemonade | Diljit Dosanjh
+punjabi | Case | Diljit Dosanjh
+punjabi | With You | AP Dhillon
+punjabi | Excuses | AP Dhillon Gurinder Gill
+punjabi | Brown Munde | AP Dhillon Gurinder Gill Shinda Kahlon
+punjabi | Insane | AP Dhillon
+punjabi | Summer High | AP Dhillon
+punjabi | Dil Nu | AP Dhillon
+punjabi | Thodi Si Daaru | AP Dhillon Shreya Ghoshal
+punjabi | Cheques | Shubh
+punjabi | Still Rollin | Shubh
+punjabi | No Love | Shubh
+punjabi | We Rollin | Shubh
+punjabi | Elevated | Shubh
+punjabi | Baller | Shubh
+punjabi | One Love | Shubh
+punjabi | Dior | Shubh
+punjabi | Mi Amor | Sharn 40k
+punjabi | 295 | Sidhu Moose Wala
+punjabi | The Last Ride | Sidhu Moose Wala
+punjabi | So High | Sidhu Moose Wala
+punjabi | Same Beef | Sidhu Moose Wala Bohemia
+punjabi | Levels | Sidhu Moose Wala
+punjabi | Bapu | Amrit Maan
+punjabi | 8 Parche | Baani Sandhu Gur Sidhu
+punjabi | Talja | Jassa Dhillon Deepak Dhillon
+punjabi | 3 Peg | Sharry Mann
+punjabi | Khaab | Akhil
+punjabi | Qismat | Ammy Virk
+punjabi | Tauba Tauba | Karan Aujla
+punjabi | Barsaat | Banjaare Roni
+punjabi | Bairan | Banjaare
+punjabi | Akhiyan | Talwiinder NDS
+punjabi | Aja | Talwiinder NDS
+punjabi | Khayaal | Talwiinder NDS
+punjabi | Ishq | Faheem Abdullah
+
+# ===== Indie & Indian Independent Artists =====
+indie | Arz Kiya Hai | Anuv Jain
+indie | Husn | Anuv Jain
+indie | Baarishein | Anuv Jain
+indie | Gul | Anuv Jain
+indie | Alag Aasmaan | Anuv Jain
+indie | Jo Tum Mere Ho | Anuv Jain
+indie | Mishri | Anuv Jain
+indie | Riha | Anuv Jain
+indie | Ocean | Anuv Jain
+indie | Antariksh | Anuv Jain
+indie | Finding Her | Kushagra Bharath Saaheal
+indie | Sahiba | Aditya Rikhari
+indie | Samjho Na | Aditya Rikhari
+indie | Fitoor | Arjun Kanungo
+indie | Kasoor | Prateek Kuhad
+indie | cold/mess | Prateek Kuhad
+indie | Co2 | Prateek Kuhad
+indie | Tune Kaha | Prateek Kuhad
+indie | Kho Gaye Hum Kahan | Jasleen Royal Prateek Kuhad
+indie | Aaftab | The Local Train
+indie | Choo Lo | The Local Train
+indie | Dil Mere | The Local Train
+indie | O Sanam | Lucky Ali
+indie | Safarnama | Lucky Ali
+indie | Na Tum Jaano Na Hum | Lucky Ali
+indie | Dooba Dooba | Silk Route
+indie | Humsafar | Silk Route
+indie | Iktara | Kavita Seth Amit Trivedi
+indie | Preet | Jasleen Royal
+indie | Love You Zindagi | Jasleen Royal
+indie | Heeriye | Jasleen Royal Arijit Singh
+indie | Khoj Passing By | When Chai Met Toast
+indie | Joy of Little Things | When Chai Met Toast
+indie | Firefly | When Chai Met Toast
+indie | Yellow Paper Daisy | When Chai Met Toast
+indie | Baarish Ka Asar | Twin Strings
+indie | Ranjha | Jasleen Royal B Praak
+indie | Aise Kyun | Anurag Saikia Raghav Chaitanya
+indie | Tu Hai Kahan | AUR
+indie | Kahani Suno 2.0 | Kaifi Khalil
+indie | Mera Safar | Iqlipse Nova
+indie | Bikhra | Abdul Hannan Rovalio
+indie | Iraaday | Abdul Hannan Rovalio
+indie | Mazaak | Anuv Jain
+indie | Gulabi Aankhen | Sanam
+indie | Yeh Raaten Yeh Mausam | Sanam
+indie | Dil Ki Dhadkan | The Yellow Diary
+indie | Marz | The Yellow Diary
+indie | Tere Jaisa | The Yellow Diary
+indie | Riha | Anuv Jain
+
+# ===== International Pop =====
+intl-pop | Shape of You | Ed Sheeran
+intl-pop | Perfect | Ed Sheeran
+intl-pop | Photograph | Ed Sheeran
+intl-pop | Thinking Out Loud | Ed Sheeran
+intl-pop | Bad Habits | Ed Sheeran
+intl-pop | Sapphire | Ed Sheeran Arijit Singh
+intl-pop | Shivers | Ed Sheeran
+intl-pop | The A Team | Ed Sheeran
+intl-pop | Blinding Lights | The Weeknd
+intl-pop | Starboy | The Weeknd Daft Punk
+intl-pop | Save Your Tears | The Weeknd
+intl-pop | Die For You | The Weeknd
+intl-pop | Flowers | Miley Cyrus
+intl-pop | Wrecking Ball | Miley Cyrus
+intl-pop | As It Was | Harry Styles
+intl-pop | Watermelon Sugar | Harry Styles
+intl-pop | Golden | Harry Styles
+intl-pop | Anti-Hero | Taylor Swift
+intl-pop | Cruel Summer | Taylor Swift
+intl-pop | Blank Space | Taylor Swift
+intl-pop | Shake It Off | Taylor Swift
+intl-pop | Love Story | Taylor Swift
+intl-pop | Fortnight | Taylor Swift Post Malone
+intl-pop | Espresso | Sabrina Carpenter
+intl-pop | Please Please Please | Sabrina Carpenter
+intl-pop | Taste | Sabrina Carpenter
+intl-pop | Birds of a Feather | Billie Eilish
+intl-pop | Bad Guy | Billie Eilish
+intl-pop | Ocean Eyes | Billie Eilish
+intl-pop | Lovely | Billie Eilish Khalid
+intl-pop | Levitating | Dua Lipa
+intl-pop | Don't Start Now | Dua Lipa
+intl-pop | New Rules | Dua Lipa
+intl-pop | Houdini | Dua Lipa
+intl-pop | Dance the Night | Dua Lipa
+intl-pop | Die With a Smile | Lady Gaga Bruno Mars
+intl-pop | Just the Way You Are | Bruno Mars
+intl-pop | Uptown Funk | Mark Ronson Bruno Mars
+intl-pop | That's What I Like | Bruno Mars
+intl-pop | Locked Out of Heaven | Bruno Mars
+intl-pop | Stay | The Kid LAROI Justin Bieber
+intl-pop | Peaches | Justin Bieber
+intl-pop | Sorry | Justin Bieber
+intl-pop | Love Yourself | Justin Bieber
+intl-pop | Senorita | Shawn Mendes Camila Cabello
+intl-pop | Treat You Better | Shawn Mendes
+intl-pop | Attention | Charlie Puth
+intl-pop | We Don't Talk Anymore | Charlie Puth Selena Gomez
+intl-pop | See You Again | Wiz Khalifa Charlie Puth
+intl-pop | Closer | The Chainsmokers Halsey
+
+# ===== EDM & Party =====
+edm-party | Titanium | David Guetta Sia
+edm-party | I'm Good Blue | David Guetta Bebe Rexha
+edm-party | Memories | David Guetta Kid Cudi
+edm-party | Without You | David Guetta Usher
+edm-party | Play Hard | David Guetta Ne-Yo Akon
+edm-party | Wake Me Up | Avicii
+edm-party | The Nights | Avicii
+edm-party | Levels | Avicii
+edm-party | Waiting for Love | Avicii
+edm-party | Hey Brother | Avicii
+edm-party | Animals | Martin Garrix
+edm-party | Scared to Be Lonely | Martin Garrix Dua Lipa
+edm-party | In the Name of Love | Martin Garrix Bebe Rexha
+edm-party | Tremor | Dimitri Vegas Martin Garrix Like Mike
+edm-party | Summer | Calvin Harris
+edm-party | Feel So Close | Calvin Harris
+edm-party | This Is What You Came For | Calvin Harris Rihanna
+edm-party | How Deep Is Your Love | Calvin Harris Disciples
+edm-party | One Kiss | Calvin Harris Dua Lipa
+edm-party | We Found Love | Rihanna Calvin Harris
+edm-party | Don't You Worry Child | Swedish House Mafia
+edm-party | Save the World | Swedish House Mafia
+edm-party | Greyhound | Swedish House Mafia
+edm-party | Clarity | Zedd Foxes
+edm-party | The Middle | Zedd Maren Morris Grey
+edm-party | Stay the Night | Zedd Hayley Williams
+edm-party | Spectrum | Zedd
+edm-party | Turn Down for What | DJ Snake Lil Jon
+edm-party | Lean On | Major Lazer DJ Snake MO
+edm-party | Light It Up | Major Lazer Nyla
+edm-party | Get Low | Dillon Francis DJ Snake
+edm-party | Taki Taki | DJ Snake Selena Gomez Ozuna Cardi B
+edm-party | Let Me Love You | DJ Snake Justin Bieber
+edm-party | Faded | Alan Walker
+edm-party | Alone | Alan Walker
+edm-party | The Spectre | Alan Walker
+edm-party | Darkside | Alan Walker
+edm-party | Unity | TheFatRat
+edm-party | Monody | TheFatRat Laura Brehm
+edm-party | Fly Away | TheFatRat Anjulie
+edm-party | Cradles | Sub Urban
+edm-party | Animals | Maroon 5
+edm-party | Don't Let Me Down | The Chainsmokers Daya
+edm-party | Something Just Like This | The Chainsmokers Coldplay
+edm-party | Roses | The Chainsmokers ROZES
+edm-party | Closer | The Chainsmokers Halsey
+edm-party | Heads Will Roll A-Trak Remix | Yeah Yeah Yeahs
+edm-party | Turn Back Time | Diplo Sonny Fodera
+edm-party | Where You Are | John Summit Hayla
+edm-party | On My Way | Alan Walker Sabrina Carpenter Farruko
+
+# ===== Haryanvi Hits =====
+haryanvi | Bairan | Banjaare
+haryanvi | Kabze | Bintu Pabra
+haryanvi | 2 Khatole | Masoom Sharma
+haryanvi | Raat Ke Shikari | Masoom Sharma
+haryanvi | System Pe System | Raju Punjabi
+haryanvi | 80 Lakh | Kala Dighal
+haryanvi | Fortuner | Manisha Sharma
+haryanvi | Desi Desi Na Bolya Kar | Raju Punjabi
+haryanvi | Solid Body | Raju Punjabi
+haryanvi | Laad Piya Ke | Raju Punjabi
+haryanvi | Bahu Kale Ki | Gajender Phogat
+haryanvi | Chatak Matak | Renuka Panwar
+haryanvi | 52 Gaj Ka Daman | Renuka Panwar
+haryanvi | Moto | Diler Kharkiya Anjali Raghav
+haryanvi | Filter Shot | Diler Kharkiya
+haryanvi | Wish | Diler Kharkiya
+haryanvi | Jale 2 | Shiva Choudhary
+haryanvi | Jale | Shiva Choudhary
+haryanvi | Tokk | Raj Mawar
+haryanvi | Gypsy | GD Kaur
+haryanvi | Badli Badli Laage | Raju Punjabi
+haryanvi | Teri Aakhya Ka Yo Kajal | DC Madana
+haryanvi | Gajban Pani Ne Chali | Vishvajeet Choudhary
+haryanvi | Moka Soka | Raj Mawar
+haryanvi | Kallo | Komal Chaudhary
+haryanvi | Jhanjhar | Renuka Panwar
+haryanvi | Teri Ramjhol Bole Gi | Masoom Sharma
+haryanvi | 2 Numbari | Masoom Sharma
+haryanvi | Yadav Brand 2 | Sunny Yaduvanshi
+haryanvi | Badmashi | Manisha Sharma
+haryanvi | Russian Bandana | Dhanda Nyoliwala
+haryanvi | Up To U | Dhanda Nyoliwala
+haryanvi | No Mercy | Dhanda Nyoliwala
+haryanvi | Cartier | Dhanda Nyoliwala
+haryanvi | Mhara Haryana | Dhanda Nyoliwala
+haryanvi | Tagdi | Raj Mawar
+haryanvi | Jat Jatni | Khasa Aala Chahar
+haryanvi | College Life | Khasa Aala Chahar
+haryanvi | Feelings | Sumit Goswami
+haryanvi | Army | Sumit Goswami
+haryanvi | Birthday | Sumit Goswami
+haryanvi | Tora | Sumit Goswami
+haryanvi | Yaar Haryane Te | KD
+haryanvi | Haryana Hood | KD
+haryanvi | Balam | Vishvajeet Choudhary
+haryanvi | Balam Thanedaar | Ruchika Jangid
+haryanvi | Chandigarh Ka Chhora | Amit Saini Rohtakiya
+haryanvi | Bahu Chali | Raj Mawar
+haryanvi | Suthri Si Chhori | Khasa Aala Chahar
+haryanvi | Chaudhary | Amit Saini Rohtakiya
+
+# ===== Tamil Hits =====
+tamil | Radhimaa | Anirudh Ravichander
+tamil | Pavazha Malli | Sai Abhyankkar
+tamil | Aasa Kooda | Sai Abhyankkar Sai Smriti
+tamil | Katchi Sera | Sai Abhyankkar
+tamil | Achacho | Hiphop Tamizha
+tamil | Arabic Kuthu | Anirudh Ravichander Jonita Gandhi
+tamil | Hukum | Anirudh Ravichander
+tamil | Kaavaalaa | Shilpa Rao Anirudh Ravichander
+tamil | Naa Ready | Thalapathy Vijay Anirudh Ravichander
+tamil | Badass | Anirudh Ravichander
+tamil | Lokiverse | Anirudh Ravichander
+tamil | Why This Kolaveri Di | Dhanush Anirudh Ravichander
+tamil | Don'u Don'u Don'u | Anirudh Ravichander
+tamil | Vaathi Coming | Anirudh Ravichander
+tamil | Megham Karukatha | Dhanush
+tamil | Jimikki Ponnu | Anirudh Ravichander Jonita Gandhi
+tamil | Hayyoda | Anirudh Ravichander Priya Mali
+tamil | Kanave Kanave | Anirudh Ravichander
+tamil | Marana Mass | Anirudh Ravichander S. P. Balasubrahmanyam
+tamil | Enjoy Enjaami | Dhee Arivu
+tamil | Rowdy Baby | Dhanush Dhee
+tamil | Aaluma Doluma | Anirudh Ravichander
+tamil | Thangamey | Anirudh Ravichander
+tamil | Munbe Vaa | Shreya Ghoshal Naresh Iyer
+tamil | Vaseegara | Bombay Jayashri
+tamil | Hosanna | A. R. Rahman Vijay Prakash
+tamil | New York Nagaram | A. R. Rahman
+tamil | Mental Manadhil | A. R. Rahman
+tamil | Maruvaarthai | Sid Sriram
+tamil | Thalli Pogathey | A. R. Rahman Sid Sriram
+tamil | Nenjukkul Peidhidum | Hariharan
+tamil | Adiye | Dhibu Ninan Thomas
+tamil | Monica | Anirudh Ravichander Sublahshini
+tamil | Private Party | Anirudh Ravichander
+tamil | Appadi Podu | Vijay Anuradha Sriram
+tamil | Google Google | Vijay Andrea Jeremiah
+tamil | Aalaporan Thamizhan | A. R. Rahman
+tamil | Singappenney | A. R. Rahman Shashaa Tirupati
+tamil | Kannazhaga | Dhanush Shruti Haasan
+tamil | Vennilave Vennilave | A. R. Rahman
+tamil | Tum Tum | S. Thaman Sri Vardhini
+tamil | Un Vizhigalil | Anirudh Ravichander
+tamil | Suttum Vizhi | Sriram Parthasarathy
+tamil | Innum Konjam Neram | A. R. Rahman
+tamil | Pathikichu | Anirudh Ravichander
+tamil | Fear Song | Anirudh Ravichander
+tamil | Red Sea | Anirudh Ravichander
+tamil | Chuttamalle | Shilpa Rao
+tamil | Sooseki | Shreya Ghoshal
+tamil | Aararaari Raaro | Anirudh Ravichander
+
+# ===== Telugu Hits =====
+telugu | Kalyani | Sid Sriram
+telugu | Yeshanagula | Sid Sriram
+telugu | Endhayya Saami | Devi Sri Prasad
+telugu | Aaya Sher | Anirudh Ravichander
+telugu | Butta Bomma | Armaan Malik
+telugu | Samajavaragamana | Sid Sriram
+telugu | Inkem Inkem Inkem Kaavaale | Sid Sriram
+telugu | Srivalli | Sid Sriram
+telugu | Oo Antava Oo Oo Antava | Indravathi Chauhan
+telugu | Daakko Daakko Meka | Sivam
+telugu | Naatu Naatu | Rahul Sipligunj Kaala Bhairava
+telugu | Dosti | M. M. Keeravani
+telugu | Komuram Bheemudo | Kaala Bhairava
+telugu | Ramuloo Ramulaa | Anurag Kulkarni Mangli
+telugu | Seeti Maar | Jaspreet Jasz Rita
+telugu | Inthandham | S. P. Charan
+telugu | Oh Sita Hey Rama | S. P. Charan Ramya Behara
+telugu | Adiga Adiga | Sid Sriram
+telugu | Vachinde | Madhu Priya Ramky
+telugu | Mind Block | Blaaze Ranina Reddy
+telugu | Saranga Dariya | Mangli
+telugu | Maate Vinadhuga | Sid Sriram
+telugu | Pilla Raa | Anurag Kulkarni
+telugu | Priyathama Priyathama | Chinmayi
+telugu | Undiporaadhey | Sid Sriram
+telugu | Evarevaro | Vishal Mishra
+telugu | Nijame Ne Chebutunna | Sid Sriram
+telugu | Kurchi Madathapetti | Sahithi Chaganti Sri Krishna
+telugu | Dum Masala | Sanjith Hegde Thaman S
+telugu | Ram Sita Ram | Vishal Mishra
+telugu | Na Roja Nuvve | Hesham Abdul Wahab
+telugu | Aradhya | Sid Sriram Chinmayi
+telugu | Kalaavathi | Sid Sriram
+telugu | Penny | Nakash Aziz
+telugu | Boss Party | Nakash Aziz Haripriya
+telugu | Chuttamalle | Shilpa Rao
+telugu | Fear Song | Anirudh Ravichander
+telugu | Red Sea | Anirudh Ravichander
+telugu | Sooseki | Shreya Ghoshal
+telugu | Pushpa Pushpa | Mika Singh Nakash Aziz
+telugu | Peelings | Javed Ali Madhubanti Bagchi
+telugu | Kissik | Sublahshini Lothika
+telugu | Life of Ram | Pradeep Kumar
+telugu | Nenu Nuvvantu | Naresh Iyer
+telugu | Vellipomaakey | Sid Sriram
+telugu | Hey Pillagaada | Sinduri Vishal Sinov Raj
+telugu | Chali Chaliga | Shreya Ghoshal
+telugu | Ammadu Let's Do Kummudu | Devi Sri Prasad
+telugu | Ranguladdukunna | Sid Sriram
+telugu | Yenti Yenti | Chinmayi
+
+# ===== Hip-Hop & Rap =====
+hiphop | Big Dawgs | Hanumankind Kalmi
+hiphop | Run It Up | Hanumankind
+hiphop | Genghis | Hanumankind
+hiphop | Nanchaku | Seedhe Maut
+hiphop | Namastute | Seedhe Maut
+hiphop | Khatta Flow | Seedhe Maut KR$NA
+hiphop | Shaktimaan | Seedhe Maut
+hiphop | 101 | Seedhe Maut
+hiphop | Kohra | Seedhe Maut
+hiphop | No Cap | KR$NA
+hiphop | Hola Amigo | KR$NA Seedhe Maut
+hiphop | Vyanjan | KR$NA
+hiphop | Fall Off | KR$NA
+hiphop | 3:59 AM | DIVINE
+hiphop | Kaam 25 | DIVINE
+hiphop | Mirchi | DIVINE MC Altaf Stylo G
+hiphop | Chal Bombay | DIVINE
+hiphop | Baazigar | DIVINE Armani White
+hiphop | Farak | DIVINE
+hiphop | Kohinoor | DIVINE
+hiphop | Mere Gully Mein | DIVINE Naezy
+hiphop | Apna Time Aayega | Ranveer Singh
+hiphop | Sher Aaya Sher | DIVINE
+hiphop | Asal Hustle | Fotty Seven
+hiphop | Galat Launde | Fotty Seven
+hiphop | Machayenge | Emiway Bantai
+hiphop | Samajh Mein Aaya Kya | Emiway Bantai
+hiphop | Company | Emiway Bantai
+hiphop | Khatam Hue Waande | Emiway Bantai
+hiphop | Rap God | Eminem
+hiphop | Lose Yourself | Eminem
+hiphop | Without Me | Eminem
+hiphop | The Real Slim Shady | Eminem
+hiphop | Godzilla | Eminem Juice WRLD
+hiphop | HUMBLE | Kendrick Lamar
+hiphop | Not Like Us | Kendrick Lamar
+hiphop | DNA | Kendrick Lamar
+hiphop | Money Trees | Kendrick Lamar
+hiphop | Sicko Mode | Travis Scott
+hiphop | Goosebumps | Travis Scott
+hiphop | FE!N | Travis Scott Playboi Carti
+hiphop | God's Plan | Drake
+hiphop | Nonstop | Drake
+hiphop | Industry Baby | Lil Nas X Jack Harlow
+hiphop | Old Town Road | Lil Nas X Billy Ray Cyrus
+hiphop | Stan | Eminem
+hiphop | Mockingbird | Eminem
+hiphop | The Box | Roddy Ricch
+hiphop | Still D.R.E. | Dr. Dre Snoop Dogg
+hiphop | Till I Collapse | Eminem Nate Dogg
+
+# ===== Romantic & Chill =====
+romantic | Perfect | Ed Sheeran
+romantic | Photograph | Ed Sheeran
+romantic | Thinking Out Loud | Ed Sheeran
+romantic | All of Me | John Legend
+romantic | A Thousand Years | Christina Perri
+romantic | Until I Found You | Stephen Sanchez
+romantic | Those Eyes | New West
+romantic | Lover | Taylor Swift
+romantic | Yellow | Coldplay
+romantic | Sparks | Coldplay
+romantic | The Scientist | Coldplay
+romantic | Fix You | Coldplay
+romantic | Night Changes | One Direction
+romantic | Story of My Life | One Direction
+romantic | You Are the Reason | Calum Scott
+romantic | Someone You Loved | Lewis Capaldi
+romantic | Before You Go | Lewis Capaldi
+romantic | Let Her Go | Passenger
+romantic | Say You Won't Let Go | James Arthur
+romantic | Dandelions | Ruth B.
+romantic | Husn | Anuv Jain
+romantic | Jo Tum Mere Ho | Anuv Jain
+romantic | Alag Aasmaan | Anuv Jain
+romantic | Baarishein | Anuv Jain
+romantic | Gul | Anuv Jain
+romantic | Kasoor | Prateek Kuhad
+romantic | cold/mess | Prateek Kuhad
+romantic | Tune Kaha | Prateek Kuhad
+romantic | Choo Lo | The Local Train
+romantic | Aaftaab | The Local Train
+romantic | Dil Mere | The Local Train
+romantic | Iktara | Kavita Seth
+romantic | Agar Tum Saath Ho | Alka Yagnik Arijit Singh
+romantic | Tum Hi Ho | Arijit Singh
+romantic | Channa Mereya | Arijit Singh
+romantic | Phir Le Aya Dil | Arijit Singh
+romantic | Raabta | Arijit Singh
+romantic | Shayad | Arijit Singh
+romantic | Hawayein | Arijit Singh
+romantic | Khairiyat | Arijit Singh
+romantic | Tera Yaar Hoon Main | Arijit Singh
+romantic | Kaise Hua | Vishal Mishra
+romantic | Ranjha | B Praak Jasleen Royal
+romantic | Tera Ban Jaunga | Akhil Sachdeva Tulsi Kumar
+romantic | Tujhe Kitna Chahne Lage | Arijit Singh
+romantic | Samjhawan | Arijit Singh Shreya Ghoshal
+romantic | Heeriye | Jasleen Royal Arijit Singh
+romantic | O Maahi | Arijit Singh
+romantic | Tu Hai Kahan | AUR
+romantic | Kahani Suno 2.0 | Kaifi Khalil
+
+# ===== Rock & Alternative =====
+rock | Believer | Imagine Dragons
+rock | Demons | Imagine Dragons
+rock | Thunder | Imagine Dragons
+rock | Radioactive | Imagine Dragons
+rock | Whatever It Takes | Imagine Dragons
+rock | Enemy | Imagine Dragons JID
+rock | Bones | Imagine Dragons
+rock | Numb | Linkin Park
+rock | In the End | Linkin Park
+rock | What I've Done | Linkin Park
+rock | Faint | Linkin Park
+rock | Somewhere I Belong | Linkin Park
+rock | Breaking the Habit | Linkin Park
+rock | Crawling | Linkin Park
+rock | Smells Like Teen Spirit | Nirvana
+rock | Come as You Are | Nirvana
+rock | Boulevard of Broken Dreams | Green Day
+rock | American Idiot | Green Day
+rock | Wake Me Up When September Ends | Green Day
+rock | 21 Guns | Green Day
+rock | Seven Nation Army | The White Stripes
+rock | Mr. Brightside | The Killers
+rock | Somebody Told Me | The Killers
+rock | Do I Wanna Know | Arctic Monkeys
+rock | 505 | Arctic Monkeys
+rock | I Wanna Be Yours | Arctic Monkeys
+rock | R U Mine | Arctic Monkeys
+rock | Fluorescent Adolescent | Arctic Monkeys
+rock | Sweater Weather | The Neighbourhood
+rock | Daddy Issues | The Neighbourhood
+rock | Afraid | The Neighbourhood
+rock | Softcore | The Neighbourhood
+rock | The Less I Know the Better | Tame Impala
+rock | Borderline | Tame Impala
+rock | Let It Happen | Tame Impala
+rock | Feels Like We Only Go Backwards | Tame Impala
+rock | Take Me Out | Franz Ferdinand
+rock | Do You Want To | Franz Ferdinand
+rock | Creep | Radiohead
+rock | No Surprises | Radiohead
+rock | Karma Police | Radiohead
+rock | Viva la Vida | Coldplay
+rock | Paradise | Coldplay
+rock | A Sky Full of Stars | Coldplay
+rock | The Pretender | Foo Fighters
+rock | Everlong | Foo Fighters
+rock | Best of You | Foo Fighters
+rock | Nothing Else Matters | Metallica
+rock | Enter Sandman | Metallica
+rock | Zombie | The Cranberries

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { useI18n } from "@/i18n/I18nProvider";
 import { LanguageSelector } from "./LanguageSelector";
 
@@ -14,7 +15,7 @@ const SECTIONS = [
   { id: "contact", key: "nav.contact" },
 ] as const;
 
-function GuideGlyph() {
+function FunnyGlyph() {
   return (
     <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden="true">
       <rect
@@ -87,10 +88,6 @@ export function Nav() {
     };
   }, [menuOpen]);
 
-  const toggleGuide = () => {
-    window.dispatchEvent(new CustomEvent("sumit:guide-toggle"));
-  };
-
   return (
     <>
       <a
@@ -138,15 +135,14 @@ export function Nav() {
 
           <div className="flex items-center gap-1">
             <LanguageSelector />
-            <button
-              type="button"
-              onClick={toggleGuide}
-              aria-label={t("guide.title")}
-              title={t("guide.title")}
+            <Link
+              href="/funny"
+              aria-label="Funny Things"
+              title="Funny Things"
               className="ms-1 rounded-sm border border-transparent p-1.5 text-frost-300 transition-colors duration-300 hover:border-white/10 hover:text-glacier"
             >
-              <GuideGlyph />
-            </button>
+              <FunnyGlyph />
+            </Link>
             <button
               ref={menuButtonRef}
               type="button"

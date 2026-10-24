@@ -5,6 +5,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        border: "var(--border)",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        ring: "color-mix(in srgb, var(--ring) <alpha-value>, transparent)",
         ink: {
           DEFAULT: "#0A0F1C",
           raised: "#0E1524",

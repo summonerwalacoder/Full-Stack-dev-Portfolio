@@ -1,5 +1,9 @@
 "use client";
 
+import { audioBus } from "@/lib/audio/audioBus";
+
+let activeSpeechToken: number | null = null;
+
 export function getSynthesis(): SpeechSynthesis | null {
   if (typeof window === "undefined") return null;
   return "speechSynthesis" in window ? window.speechSynthesis : null;
@@ -57,24 +61,41 @@ export function speakJoke(
   }
   try {
     synth.cancel();
+    activeSpeechToken = null;
     const u = new SpeechSynthesisUtterance(text);
+    const token = audioBus.beginSpeech("spoken-joke");
+    activeSpeechToken = token;
+    const finish = (reason: "complete" | "error") => {
+      if (activeSpeechToken !== token) return;
+      activeSpeechToken = null;
+      audioBus.endSpeech(token, reason);
+      cb.onEnd?.();
+    };
     u.lang = langTag(lang);
     const voice = pickVoice(lang);
     if (voice) u.voice = voice;
     u.rate = 1;
     u.pitch = 1.1;
     u.onstart = () => cb.onStart?.();
-    u.onend = () => cb.onEnd?.();
-    u.onerror = () => cb.onEnd?.();
+    u.onend = () => finish("complete");
+    u.onerror = () => finish("error");
     synth.speak(u);
     return true;
   } catch {
+    if (activeSpeechToken !== null) {
+      audioBus.endSpeech(activeSpeechToken, "error");
+      activeSpeechToken = null;
+    }
     cb.onEnd?.();
     return false;
   }
 }
 
 export function cancelSpeech() {
+  if (activeSpeechToken !== null) {
+    audioBus.endSpeech(activeSpeechToken, "cancel");
+    activeSpeechToken = null;
+  }
   try {
     getSynthesis()?.cancel();
   } catch {
@@ -83,6 +104,7 @@ export function cancelSpeech() {
 }
 
 export function playBoop() {
+  let soundToken: number | null = null;
   try {
     const AC =
       window.AudioContext ||
@@ -90,6 +112,7 @@ export function playBoop() {
         .webkitAudioContext;
     if (!AC) return;
     const ctx = new AC();
+    soundToken = audioBus.beginSound("bobo-boop");
     const now = ctx.currentTime;
     [523.25, 659.25, 783.99].forEach((freq, i) => {
       const osc = ctx.createOscillator();
@@ -104,8 +127,14 @@ export function playBoop() {
       osc.start(t);
       osc.stop(t + 0.22);
     });
-    window.setTimeout(() => ctx.close(), 600);
+    window.setTimeout(() => {
+      void ctx.close().catch((error: unknown) => {
+        console.error("Unable to close the Bobo sound context.", error);
+      });
+      if (soundToken !== null) audioBus.endSound(soundToken);
+    }, 600);
   } catch {
     /* audio is optional */
+    if (soundToken !== null) audioBus.endSound(soundToken);
   }
 }
